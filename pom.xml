@@ -127,11 +127,11 @@
 		</dependency>
 	</dependencies>
 
-	<build>		
+	<!--<build>		
 
 		<plugins>
 		
-			<!-- to generate the MANIFEST-FILE of the bundle -->
+			 to generate the MANIFEST-FILE of the bundle 
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
@@ -155,9 +155,9 @@
 					<remoteTagging>true</remoteTagging>
 					<resume>false</resume>
 				</configuration>
-			</plugin>			
+			</plugin>		
 		</plugins>
-	</build>
+	</build>-->	
 
 	<distributionManagement>
 		<repository>
