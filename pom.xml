@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>nl.paultegelaar.liquid.relay</groupId>
+  <artifactId>liquid-relay-fuse-esb-interceptor</artifactId>
+  <packaging>bundle</packaging>
+  <version>0.0.5-SNAPSHOT</version>
+
+  <name>Camel Liquid Component</name>
+
+	<scm>
+		<connection>scm:git:https://github.com/rjptegelaar/liquid-relay-fuse-esb-interceptor</connection>
+		<developerConnection>scm:git:git@github.com:rjptegelaar/liquid-relay-fuse-esb-interceptor</developerConnection>
+		<url>https://github.com/rjptegelaar/liquid-relay-fuse-esb-interceptor.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+     <gozirra.version>0.4.1</gozirra.version>
+     <gson.version>2.3</gson.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Camel BOM -->
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-parent</artifactId>
+        <version>2.18.2</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+    </dependency>
+    
+    <!-- support camel documentation -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>apt</artifactId>
+      <version>2.18.2</version>
+    </dependency>
+    
+    <!-- logging -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+	<!-- LIQUID -->
+		<dependency>
+			<groupId>com.pte.liquid.relay</groupId>
+			<artifactId>RelayApi</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>gozirra-client</artifactId>
+					<groupId>net.ser1</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>gson</artifactId>
+					<groupId>com.google.code.gson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>RelayInterfaces</artifactId>
+					<groupId>com.pte.liquid.relay</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.pte.liquid.relay</groupId>
+			<artifactId>liquid-relay-camel-converter</artifactId>
+			<version>1.0.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>RelayInterfaces</artifactId>
+					<groupId>com.pte.liquid.relay</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.pte.liquid.relay</groupId>
+			<artifactId>RelayInterfaces</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<!-- GSON -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<!-- STOMP -->
+		<dependency>
+			<groupId>net.ser1</groupId>
+			<artifactId>gozirra-client</artifactId>
+			<version>${gozirra.version}</version>
+		</dependency>
+
+    <!-- testing -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+
+    <plugins>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <!-- generate components meta-data and validate component includes documentation etc -->
+      <plugin>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-package-maven-plugin</artifactId>
+        <version>2.18.2</version>
+        <executions>
+          <execution>
+            <id>prepare</id>
+            <goals>
+              <goal>prepare-components</goal>
+            </goals>
+            <phase>generate-resources</phase>
+          </execution>
+          <execution>
+            <id>validate</id>
+            <goals>
+              <goal>validate-components</goal>
+            </goals>
+            <phase>prepare-package</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- to generate the MANIFEST-FILE of the bundle -->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>3.2.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+          	<Import-Package>com.pte.liquid.relay.*,org.apache.camel;version="[2.12.0,3.0.0)",org.apache.camel.impl;version="[2.12.0,3.0.0)",org.apache.camel.spi;version="[2.12.0,3.0.0)",!com.mysema.query.types,!com.mysema.query.types.path,!javax.persistence,!javax.security.auth.login,!javax.xml.bind.annotation,!javax.xml.bind.annotation.adapters,!org.slf4j,!org.springframework.scheduling.annotation,*</Import-Package>
+            <Bundle-SymbolicName>nl.paultegelaar.liquid.relay.liquid-relay-fuse-esb-interceptor</Bundle-SymbolicName>            
+            <Export-Service>org.apache.camel.spi.ComponentResolver;component=liquid</Export-Service>
+            <Embed-Dependency>liquid-relay-camel-converter,RelayApi,RelayInterfaces,gozirra-client,gson;scope=compile</Embed-Dependency>            
+          </instructions>
+        </configuration>
+      </plugin>
+
+		<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<remoteTagging>true</remoteTagging>
+					<resume>false</resume>
+				</configuration>
+			</plugin>
+
+    </plugins>
+  </build>
+
+	<distributionManagement>
+		<repository>
+			<id>bintray</id>
+			<url>https://api.bintray.com/maven/paultegelaar/maven/liquid-relay-fuse-esb-interceptor</url>
+		</repository>
+		<snapshotRepository>
+			<id>pte-snapshots</id>
+			<name>internal snapshots</name>
+			<url>${snapshots-url}</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>
