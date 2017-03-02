@@ -127,8 +127,7 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<defaultGoal>install</defaultGoal>
+	<build>		
 
 		<plugins>
 
@@ -141,7 +140,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-
+<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -149,10 +148,10 @@
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
-			</plugin>
+			</plugin> -->
 
 			<!-- generate components meta-data and validate component includes documentation 
-				etc -->
+				etc 
 				
 			<plugin>
 				<groupId>org.apache.camel</groupId>
@@ -174,12 +173,12 @@
 						<phase>prepare-package</phase>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<!-- to generate the MANIFEST-FILE of the bundle -->
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>2.3.7</version>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
