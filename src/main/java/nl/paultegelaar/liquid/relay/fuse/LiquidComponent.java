@@ -24,4 +24,6 @@ public class LiquidComponent extends UriEndpointComponent {
         setProperties(endpoint, parameters);
         return endpoint;
     }
+    
+    
 }
