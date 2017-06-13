@@ -163,7 +163,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>		
 		</plugins>
 	</build>
 
@@ -172,6 +172,7 @@
 			<id>bintray</id>
 			<url>https://api.bintray.com/maven/paultegelaar/maven/liquid-relay-fuse-esb-interceptor</url>
 		</repository>
+		
 		<snapshotRepository>
 			<id>pte-snapshots</id>
 			<name>internal snapshots</name>
@@ -187,7 +188,7 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-	
+
 	<developers>
 		<developer>
 			<name>Paul Tegelaar</name>
