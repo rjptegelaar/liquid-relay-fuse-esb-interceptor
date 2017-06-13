@@ -158,9 +158,10 @@
 							<goal>sign</goal>
 						</goals>
 						<configuration>						
-							<keyname>${gpg-passphrase}</keyname>
+							<keyname>paultegelaar</keyname>
 							<passphraseServerId>${gpg-passphrase}</passphraseServerId>
-							<passphrase>${gpg-passphrase}</passphrase>
+							<passphrase>${gpg-passphrase}</passphrase>		
+												
 						</configuration>
 					</execution>
 				</executions>
