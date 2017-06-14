@@ -158,7 +158,6 @@
 						</goals>
 						<configuration>						
 							<keyname>paultegelaar</keyname>
-							<passphraseServerId>${gpg-passphrase}</passphraseServerId>
 							<passphrase>${gpg-passphrase}</passphrase>		
 												
 						</configuration>
@@ -182,7 +181,7 @@
 	</distributionManagement>
 
 	<url>https://github.com/rjptegelaar/liquid-relay-fuse-esb-interceptor</url>
-	<description>Liquid interceptor for Fuse ESB. Is used for the monitoring of message flows through fuse ESB.</description>
+	<description>Liquid interceptor for Fuse ESB. Is used for the monitoring of message flows through Fuse ESB.</description>
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
