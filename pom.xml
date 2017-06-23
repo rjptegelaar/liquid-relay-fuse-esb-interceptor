@@ -137,7 +137,7 @@
 						<Import-Package>nl.paultegelaar.liquid.relay.*,org.apache.camel;version="[2.12.0,3.0.0)",org.apache.camel.impl;version="[2.12.0,3.0.0)",org.apache.camel.spi;version="[2.12.0,3.0.0)",!com.mysema.query.types,!com.mysema.query.types.path,!javax.persistence,!javax.security.auth.login,!javax.xml.bind.annotation,!javax.xml.bind.annotation.adapters,!org.slf4j,!org.springframework.scheduling.annotation,*</Import-Package>
 						<Bundle-SymbolicName>nl.paultegelaar.liquid.relay.liquid-relay-fuse-esb-interceptor</Bundle-SymbolicName>
 						<Export-Service>org.apache.camel.spi.ComponentResolver;component=liquid</Export-Service>
-						<Embed-Dependency>liquid-relay-camel-converter,RelayApi,RelayInterfaces,gozirra-client,gson;scope=compile</Embed-Dependency>
+						<Embed-Dependency>liquid-legacy-async,liquid-relay-camel-converter,RelayApi,RelayInterfaces,gozirra-client,gson;scope=compile</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
