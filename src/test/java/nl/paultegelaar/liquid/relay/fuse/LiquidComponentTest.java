@@ -20,6 +20,7 @@ import org.junit.Test;
 
 public class LiquidComponentTest extends CamelTestSupport {
 
+	
     @Test
     public void testLiquid() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
@@ -28,14 +29,44 @@ public class LiquidComponentTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
+    @Test
+    public void testLiquidRun() throws Exception {
+        MockEndpoint mock = getMockEndpoint("mock:result1");
+        mock.expectedMinimumMessageCount(5);       
+        
+        assertMockEndpointsSatisfied();
+    }
+    
+    @Test
+    public void testLiquidConfig() throws Exception {
+       
+        MockEndpoint mock = getMockEndpoint("mock:result2");
+        mock.expectedMinimumMessageCount(1);       
+        
+        assertMockEndpointsSatisfied();
+        
+       
+    }
+
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() {
                 from("timer://foo?repeatCount=1")
-                  .to("liquid://bar")
+                  .to("liquid:testSimple")
                   .to("mock:result");
+                
+                from("timer://foo?repeatCount=5")
+                .to("liquid:testRun")
+                .to("mock:result1");     
+                
+                from("timer://foo?repeatCount=1")
+                .to("liquid:testSampleConfig?queueSize=10&queueThreshold=1&hostname=localhost&destination=dummy&port=12345&enabled=true")
+                .to("mock:result2");    
+                
             }
         };
     }
+    
+    
 }

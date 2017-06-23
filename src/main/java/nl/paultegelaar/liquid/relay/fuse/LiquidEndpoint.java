@@ -25,6 +25,7 @@ import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriPath;
 
+import com.pte.liquid.async.LiquidLegacyTransport;
 import com.pte.liquid.relay.Converter;
 import com.pte.liquid.relay.Marshaller;
 import com.pte.liquid.relay.Transport;
@@ -38,20 +39,53 @@ import com.pte.liquid.relay.marshaller.json.JsonMarshaller;
 @UriEndpoint(scheme = "liquid", title = "Liquid", syntax="liquid:name", consumerClass = LiquidConsumer.class, label = "Liquid")
 public class LiquidEndpoint extends DefaultEndpoint {
     @UriPath @Metadata(required = "true")
-    private String name;
-    @UriParam(defaultValue = "10")
-    private int option = 10;
-    
-	private long count = 0;
-	
-    private Transport transport;
+    private String name;    
+
+    	
+    private Transport stompTransport;
+    private Transport asyncTransport;
 	private Converter<Exchange> converter;
 	private Marshaller marshaller;
+	
+	/**
+	 * Destination queue where logmessage is sent. Default is ActiveMQ messagebroker.
+	 */
+	@UriParam
     private String destination = "com.pte.liquid.relay.json.in";
+	
+	/**
+	 * Hostname of ther Liquid relay where logmessage is sent.
+	 */
+	@UriParam
     private String hostname = "localhost";
+	
+	/**
+	 * Portnumber of ther Liquid relay where logmessage is sent.
+	 */
+	@UriParam
     private int port = 33555;
-    private boolean enabled = true;
+	
+	
+	/**
+	 * Swich to enable or disable Liquid interceptor.
+	 */
+	@UriParam
+    private boolean enabled;
 
+	
+	/**
+	 * Maximum message to internally queue.
+	 */
+	@UriParam
+    private int queueSize = 1000;
+
+	
+	/**
+	 * If the remaining queue size drops below this threshold, messages will be dropped.
+	 */
+	@UriParam
+    private int queueThreshold = 100;
+	
     public LiquidEndpoint() {
     }
 
@@ -63,8 +97,11 @@ public class LiquidEndpoint extends DefaultEndpoint {
         super(endpointUri);
     }
 
-    public Producer createProducer() throws Exception {
-this.enabled = enabled;
+    public Producer createProducer() throws Exception {    	
+    	    	 
+    	if(queueThreshold>=queueSize){
+    		throw new IllegalArgumentException("Queuesize must always be larger then queueThreshold"); 
+    	}
     	
     	marshaller = new JsonMarshaller();
     	
@@ -80,9 +117,12 @@ this.enabled = enabled;
         	properties.put("relay_stomp_port", port);
         }
     	
-    	transport = new StompTransport();
-    	transport.setProperties(properties);
-    	transport.setMarshaller(marshaller);
+    	stompTransport = new StompTransport();
+    	stompTransport.setProperties(properties);
+    	stompTransport.setMarshaller(marshaller);
+    	
+    	asyncTransport = new LiquidLegacyTransport(stompTransport);
+    	
     	converter = new LiquidRelayExchangeConverterImpl();
     	
     	
@@ -106,25 +146,14 @@ this.enabled = enabled;
 
     public String getName() {
         return name;
-    }
+    }	
 
-    /**
-     * Some description of this option, and what it does
-     */
-    public void setOption(int option) {
-        this.option = option;
-    }
-
-    public int getOption() {
-        return option;
-    }
-
-	public Transport getTransport() {
-		return transport;
+	public Transport getStompTransport() {
+		return stompTransport;
 	}
 
-	public void setTransport(Transport transport) {
-		this.transport = transport;
+	public void setStompTransport(Transport stompTransport) {
+		this.stompTransport = stompTransport;
 	}
 
 	public Converter<Exchange> getConverter() {
@@ -149,6 +178,67 @@ this.enabled = enabled;
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public Transport getAsyncTransport() {
+		return asyncTransport;
+	}
+
+	public void setAsyncTransport(Transport asyncTransport) {
+		this.asyncTransport = asyncTransport;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
+	public String getHostname() {
+		return hostname;
+	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	
+	
+	public int getQueueSize() {
+		return queueSize;
+	}
+
+	public void setQueueSize(int queueSize) {
+		this.queueSize = queueSize;
+	}
+
+	public int getQueueThreshold() {
+		return queueThreshold;
+	}
+
+	public void setQueueThreshold(int queueThreshold) {
+		this.queueThreshold = queueThreshold;
+	}
+
+	@Override
+	public void shutdown() throws Exception {
+		try{
+			asyncTransport.destroy();
+		}catch(Exception e){
+			//Ignore all errors
+		}
+		
+		super.shutdown();
 	}
     
     

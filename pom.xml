@@ -60,9 +60,9 @@
 
 		<!-- LIQUID -->
 		<dependency>
-			<groupId>com.pte.liquid.relay</groupId>
+			<groupId>nl.paultegelaar.liquid.relay</groupId>
 			<artifactId>RelayApi</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>gozirra-client</artifactId>
@@ -74,25 +74,30 @@
 				</exclusion>
 				<exclusion>
 					<artifactId>RelayInterfaces</artifactId>
-					<groupId>com.pte.liquid.relay</groupId>
+					<groupId>nl.paultegelaar.liquid.relay</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.pte.liquid.relay</groupId>
+			<groupId>nl.paultegelaar.liquid.relay</groupId>
 			<artifactId>liquid-relay-camel-converter</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>RelayInterfaces</artifactId>
-					<groupId>com.pte.liquid.relay</groupId>
+					<groupId>nl.paultegelaar.liquid.relay</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.pte.liquid.relay</groupId>
+			<groupId>nl.paultegelaar.liquid.relay</groupId>
 			<artifactId>RelayInterfaces</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.paultegelaar.liquid.relay</groupId>
+			<artifactId>liquid-legacy-async</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 
 		<!-- GSON -->
@@ -129,7 +134,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Import-Package>com.pte.liquid.relay.*,org.apache.camel;version="[2.12.0,3.0.0)",org.apache.camel.impl;version="[2.12.0,3.0.0)",org.apache.camel.spi;version="[2.12.0,3.0.0)",!com.mysema.query.types,!com.mysema.query.types.path,!javax.persistence,!javax.security.auth.login,!javax.xml.bind.annotation,!javax.xml.bind.annotation.adapters,!org.slf4j,!org.springframework.scheduling.annotation,*</Import-Package>
+						<Import-Package>nl.paultegelaar.liquid.relay.*,org.apache.camel;version="[2.12.0,3.0.0)",org.apache.camel.impl;version="[2.12.0,3.0.0)",org.apache.camel.spi;version="[2.12.0,3.0.0)",!com.mysema.query.types,!com.mysema.query.types.path,!javax.persistence,!javax.security.auth.login,!javax.xml.bind.annotation,!javax.xml.bind.annotation.adapters,!org.slf4j,!org.springframework.scheduling.annotation,*</Import-Package>
 						<Bundle-SymbolicName>nl.paultegelaar.liquid.relay.liquid-relay-fuse-esb-interceptor</Bundle-SymbolicName>
 						<Export-Service>org.apache.camel.spi.ComponentResolver;component=liquid</Export-Service>
 						<Embed-Dependency>liquid-relay-camel-converter,RelayApi,RelayInterfaces,gozirra-client,gson;scope=compile</Embed-Dependency>

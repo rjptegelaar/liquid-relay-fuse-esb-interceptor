@@ -33,10 +33,13 @@ public class LiquidProducer extends DefaultProducer {
     private Transport transport;
     private boolean enabled;
 
-    public LiquidProducer(LiquidEndpoint endpoint) {
+    public LiquidProducer(LiquidEndpoint endpoint) {        	
         super(endpoint);
+        
+        LOG.info("Created Liquid interceptor queue size: " + endpoint.getQueueSize() + ", threshold: " + endpoint.getQueueThreshold());
+        
         this.converter = endpoint.getConverter();
-        this.transport = endpoint.getTransport();
+        this.transport = endpoint.getAsyncTransport();
         this.enabled = endpoint.isEnabled();
         
         
